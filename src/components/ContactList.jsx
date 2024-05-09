@@ -17,6 +17,7 @@ export default function ContactList({ setSelectedContactId }) {
         );
         const result = await response.json();
         setContacts(result);
+        setContact(result.id);
       } catch (err) {
         console.error(err);
       }
