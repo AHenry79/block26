@@ -1,23 +1,40 @@
-import ContactList from "./components/ContactList";
 import { useState } from "react";
-import "./App.css";
-import SelectedContact from "./components/SelectedContact";
-export default function App() {
-  const [selectedContactId, setSelectedContactId] = useState(null);
-  const [contactDet, setContact] = useState({});
+import ContactList from "./components/ContactList";
+import ContactSingle from "./components/SelectedContactId";
+
+function App() {
+  const [selectedContact, setSelectedContact] = useState();
+  const [isContactSelected, setIsContactSelected] = useState(false);
+
+  const rowClick = (contact) => {
+    setSelectedContact(contact);
+    setIsContactSelected(true);
+  };
+
+  const buttonClick = () => {
+    setIsContactSelected(false);
+  };
+
   return (
-    <>
-      {selectedContactId ? (
-        <SelectedContact
-          setSelectedContactId={setSelectedContactId}
-          setContact={setContact}
-        />
+    <div>
+      {isContactSelected ? (
+        <>
+          <h2>Selected Contact Details</h2>
+          <p>Name: {selectedContact.name}</p>
+          <p>Username: {selectedContact.username}</p>
+          <p>Email: {selectedContact.email}</p>
+          <ContactSingle
+            setSelectedContactId={setSelectedContact}
+            selectedContactId={selectedContact.id}
+          />
+        </>
       ) : (
-        <ContactList
-          setSelectedContactId={setSelectedContactId}
-          setContact={setContact}
-        />
+        <ContactList setSelectedContactId={rowClick} />
       )}
-    </>
+      <button className="but" onClick={buttonClick}>
+        Show All Contacts
+      </button>
+    </div>
   );
 }
+export default App;
